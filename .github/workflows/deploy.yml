@@ -1,0 +1,38 @@
+name: Deploy package to pub.dev
+
+on:
+  push:
+    tags:
+    - 'v[0-9]+.[0-9]+.[0-9]+' # tag-pattern on pub.dev: 'v{{version}}'
+
+jobs:
+  build:
+    name: Deploy package to pub.dev
+    permissions:
+      id-token: write
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: 3.27.4
+      - run: flutter --version
+
+      # Setup Dart SDK with JWT token
+      # Copy from: https://github.com/dart-lang/setup-dart/blob/main/.github/workflows/publish.yml
+      - uses: dart-lang/setup-dart@0a8a0fc875eb934c15d08629302413c671d3f672
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Run tests
+        run: flutter test
+      
+      - name: Verify package
+        run: dart pub publish --dry-run
+
+      - name: Deploy package
+        run: dart pub publish --force

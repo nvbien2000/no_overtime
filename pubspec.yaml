@@ -1,6 +1,6 @@
 name: no_overtime
 description: "No more overtime, go home & enjoy your life"
-version: 0.0.1
+version: 0.0.2
 homepage: https://github.com/nvbien2000/no_overtime
 
 environment:
