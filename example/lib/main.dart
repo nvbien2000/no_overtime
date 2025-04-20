@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:no_overtime/no_overtime.dart';
 
-void main() {
-  NoOvertime.config();
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await NoOvertime.config(
+    country: ECountry.vietnam,
+  );
 
   runApp(const MainApp());
 }
